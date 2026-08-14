@@ -1,1 +1,2211 @@
-<!-- index.html is used by the Flask application -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Ballari MediAssist</title>
+
+    <style>
+
+        /* =====================================================
+           GLOBAL
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family:
+                Inter,
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eef7ff,
+                    #f8fbff
+                );
+
+            color: #172033;
+
+            min-height: 100vh;
+        }
+
+        button,
+        input {
+            font-family: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+
+        /* =====================================================
+           APP LAYOUT
+        ===================================================== */
+
+        .app {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .header {
+            height: 74px;
+
+            background:
+                rgba(255, 255, 255, 0.96);
+
+            border-bottom:
+                1px solid #e5eaf1;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding:
+                0 30px;
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 46px;
+            height: 46px;
+
+            border-radius: 14px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #1677ff,
+                    #20b8a6
+                );
+
+            color: white;
+
+            font-size: 24px;
+
+            box-shadow:
+                0 8px 20px
+                rgba(22, 119, 255, 0.20);
+        }
+
+        .brand-text h1 {
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .brand-text p {
+            font-size: 12px;
+            color: #718096;
+            margin-top: 2px;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            color: #16835b;
+
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .status-dot {
+            width: 9px;
+            height: 9px;
+
+            border-radius: 50%;
+
+            background: #22c55e;
+
+            box-shadow:
+                0 0 0 4px
+                rgba(34, 197, 94, 0.12);
+        }
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .main {
+            flex: 1;
+
+            display: flex;
+
+            max-width: 1500px;
+
+            width: 100%;
+
+            margin: 0 auto;
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+            width: 250px;
+
+            background: white;
+
+            border-right:
+                1px solid #e5eaf1;
+
+            padding: 24px 16px;
+
+            flex-shrink: 0;
+        }
+
+        .sidebar-title {
+            font-size: 11px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+            color: #9aa5b5;
+
+            font-weight: 700;
+
+            padding:
+                0 12px 12px;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .nav-item {
+            width: 100%;
+
+            border: none;
+
+            background: transparent;
+
+            padding:
+                13px 14px;
+
+            border-radius: 12px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+
+            color: #667085;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            text-align: left;
+
+            transition: 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background: #f2f7ff;
+            color: #1677ff;
+        }
+
+        .nav-item.active {
+            background:
+                linear-gradient(
+                    135deg,
+                    #e9f3ff,
+                    #eafcf8
+                );
+
+            color: #1677ff;
+        }
+
+        .nav-icon {
+            width: 32px;
+            height: 32px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 9px;
+
+            background: #f4f7fb;
+
+            font-size: 17px;
+        }
+
+        .nav-item.active .nav-icon {
+            background: white;
+        }
+
+
+        /* =====================================================
+           CONTENT
+        ===================================================== */
+
+        .content {
+            flex: 1;
+
+            min-width: 0;
+
+            padding: 28px;
+        }
+
+        .section {
+            display: none;
+
+            animation:
+                fadeIn 0.25s ease;
+        }
+
+        .section.active-section {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+
+        /* =====================================================
+           PAGE HEADER
+        ===================================================== */
+
+        .page-header {
+            margin-bottom: 22px;
+        }
+
+        .page-header h2 {
+            font-size: 28px;
+            margin-bottom: 7px;
+        }
+
+        .page-header p {
+            color: #718096;
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           CHAT
+        ===================================================== */
+
+        .chat-layout {
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1fr)
+                300px;
+
+            gap: 22px;
+        }
+
+        .chat-card {
+            background: white;
+
+            border:
+                1px solid #e6ebf2;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 12px 35px
+                rgba(27, 54, 93, 0.06);
+
+            display: flex;
+
+            flex-direction: column;
+
+            min-height: 650px;
+        }
+
+        .chat-header {
+            padding: 18px 20px;
+
+            border-bottom:
+                1px solid #edf0f5;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+        .chat-avatar {
+            width: 42px;
+            height: 42px;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #1677ff,
+                    #16bfa5
+                );
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: white;
+
+            font-size: 20px;
+        }
+
+        .chat-header h3 {
+            font-size: 15px;
+        }
+
+        .chat-header p {
+            font-size: 12px;
+            color: #8b95a5;
+            margin-top: 3px;
+        }
+
+        .chat-messages {
+            flex: 1;
+
+            overflow-y: auto;
+
+            padding: 22px;
+
+            min-height: 430px;
+        }
+
+        .message {
+            display: flex;
+
+            margin-bottom: 17px;
+
+            gap: 9px;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message.bot {
+            justify-content: flex-start;
+        }
+
+        .message-avatar {
+            width: 31px;
+            height: 31px;
+
+            flex-shrink: 0;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #1677ff,
+                    #16bfa5
+                );
+
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-weight: bold;
+        }
+
+        .message-content {
+            max-width: 78%;
+        }
+
+        .message.user .message-content {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .message-bubble {
+            padding: 12px 15px;
+
+            border-radius: 15px;
+
+            background: #f3f6fa;
+
+            font-size: 14px;
+
+            line-height: 1.55;
+
+            color: #263247;
+        }
+
+        .message.user .message-bubble {
+            background:
+                linear-gradient(
+                    135deg,
+                    #1677ff,
+                    #3188ff
+                );
+
+            color: white;
+
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.bot .message-bubble {
+            border-bottom-left-radius: 4px;
+        }
+
+        .message-time {
+            display: block;
+
+            font-size: 10px;
+
+            color: #9aa5b5;
+
+            margin-top: 5px;
+        }
+
+        .chat-input-area {
+            padding: 15px;
+
+            border-top:
+                1px solid #edf0f5;
+
+            background: #fbfcfe;
+        }
+
+        .input-wrapper {
+            display: flex;
+
+            gap: 10px;
+
+            background: white;
+
+            border:
+                1px solid #dfe5ed;
+
+            padding: 7px;
+
+            border-radius: 14px;
+        }
+
+        #messageInput {
+            flex: 1;
+
+            border: none;
+
+            outline: none;
+
+            padding:
+                10px 12px;
+
+            font-size: 14px;
+
+            background: transparent;
+        }
+
+        .send-btn {
+            border: none;
+
+            width: 44px;
+            height: 44px;
+
+            border-radius: 11px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #1677ff,
+                    #16bfa5
+                );
+
+            color: white;
+
+            font-size: 18px;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-1px);
+        }
+
+
+        /* =====================================================
+           QUICK QUESTIONS
+        ===================================================== */
+
+        .quick-card {
+            background: white;
+
+            border:
+                1px solid #e6ebf2;
+
+            border-radius: 18px;
+
+            padding: 18px;
+
+            height: fit-content;
+        }
+
+        .quick-card h3 {
+            font-size: 15px;
+
+            margin-bottom: 5px;
+        }
+
+        .quick-card > p {
+            color: #8994a5;
+
+            font-size: 12px;
+
+            margin-bottom: 15px;
+        }
+
+        .quick-buttons {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 9px;
+        }
+
+        .quick-btn {
+            border:
+                1px solid #e2e8f0;
+
+            background: #f8fafc;
+
+            padding: 13px 9px;
+
+            border-radius: 12px;
+
+            font-size: 12px;
+
+            color: #344054;
+
+            transition: 0.2s;
+        }
+
+        .quick-btn:hover {
+            border-color: #1677ff;
+
+            color: #1677ff;
+
+            background: #eff6ff;
+        }
+
+
+        /* =====================================================
+           HOSPITALS
+        ===================================================== */
+
+        .hospital-toolbar {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-bottom: 20px;
+
+            flex-wrap: wrap;
+        }
+
+        .hospital-search {
+            flex: 1;
+
+            min-width: 220px;
+
+            background: white;
+
+            border:
+                1px solid #dfe5ed;
+
+            border-radius: 12px;
+
+            padding:
+                12px 15px;
+
+            outline: none;
+        }
+
+        .hospital-search:focus {
+            border-color: #1677ff;
+        }
+
+        .hospital-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fill,
+                    minmax(280px, 1fr)
+                );
+
+            gap: 18px;
+        }
+
+        .hospital-card {
+            background: white;
+
+            border:
+                1px solid #e5eaf1;
+
+            border-radius: 18px;
+
+            padding: 20px;
+
+            box-shadow:
+                0 8px 25px
+                rgba(27, 54, 93, 0.05);
+
+            transition:
+                transform 0.2s,
+                box-shadow 0.2s;
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+        .hospital-card:hover {
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 15px 35px
+                rgba(27, 54, 93, 0.10);
+        }
+
+        .hospital-card::before {
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: 0;
+            right: 0;
+
+            height: 4px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #1677ff,
+                    #16bfa5
+                );
+        }
+
+        .hospital-icon {
+            width: 58px;
+            height: 58px;
+
+            border-radius: 16px;
+
+            background: #eaf4ff;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 28px;
+
+            margin-bottom: 14px;
+        }
+
+        .hospital-card h3 {
+            font-size: 18px;
+
+            margin-bottom: 7px;
+        }
+
+        .hospital-type {
+            display: inline-block;
+
+            padding:
+                5px 9px;
+
+            background: #eefbf8;
+
+            color: #07866d;
+
+            border-radius: 20px;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            margin-bottom: 14px;
+        }
+
+        .hospital-info {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 10px;
+
+            font-size: 12px;
+
+            color: #667085;
+
+            line-height: 1.5;
+        }
+
+        .hospital-info strong {
+            color: #344054;
+        }
+
+        .hospital-phone {
+            color: #1677ff;
+
+            font-weight: 600;
+        }
+
+        .emergency-badge {
+            display: inline-block;
+
+            margin-top: 15px;
+
+            padding:
+                7px 10px;
+
+            border-radius: 9px;
+
+            background: #fff2f2;
+
+            color: #d92d20;
+
+            font-size: 11px;
+
+            font-weight: 700;
+        }
+
+        .doctor-box {
+            margin-top: 15px;
+
+            padding: 13px;
+
+            background: #f8fafc;
+
+            border-radius: 12px;
+
+            border:
+                1px solid #e8edf3;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+        .doctor-box h4 {
+            margin-bottom: 8px;
+
+            color: #1677ff;
+        }
+
+        .loading-card {
+            background: white;
+
+            border:
+                1px solid #e5eaf1;
+
+            border-radius: 16px;
+
+            padding: 30px;
+
+            text-align: center;
+
+            color: #718096;
+
+            grid-column: 1 / -1;
+        }
+
+
+        /* =====================================================
+           SPECIALTIES
+        ===================================================== */
+
+        .specialty-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(220px, 1fr)
+                );
+
+            gap: 18px;
+        }
+
+        .specialty-card {
+            background: white;
+
+            border:
+                1px solid #e5eaf1;
+
+            border-radius: 18px;
+
+            padding: 22px;
+
+            transition: 0.2s;
+
+            cursor: pointer;
+        }
+
+        .specialty-card:hover {
+            transform: translateY(-4px);
+
+            border-color: #b9d7ff;
+
+            box-shadow:
+                0 12px 30px
+                rgba(22,119,255,0.08);
+        }
+
+        .specialty-icon {
+            width: 60px;
+            height: 60px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 17px;
+
+            background: #eff6ff;
+
+            font-size: 29px;
+
+            margin-bottom: 15px;
+        }
+
+        .specialty-card h3 {
+            font-size: 17px;
+
+            margin-bottom: 7px;
+        }
+
+        .specialty-card p {
+            color: #718096;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+
+            margin-bottom: 15px;
+        }
+
+        .specialty-btn {
+            width: 100%;
+
+            border: none;
+
+            background: #eff6ff;
+
+            color: #1677ff;
+
+            padding: 10px;
+
+            border-radius: 10px;
+
+            font-weight: 700;
+
+            font-size: 12px;
+        }
+
+
+        /* =====================================================
+           FEATURES
+        ===================================================== */
+
+        .features-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(240px, 1fr)
+                );
+
+            gap: 18px;
+        }
+
+        .feature-card {
+            background: white;
+
+            border:
+                1px solid #e5eaf1;
+
+            border-radius: 18px;
+
+            padding: 22px;
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+
+            border-radius: 14px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #eff6ff;
+
+            font-size: 24px;
+
+            margin-bottom: 14px;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 8px;
+
+            font-size: 16px;
+        }
+
+        .feature-card p {
+            color: #718096;
+
+            line-height: 1.6;
+
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           EMERGENCY
+        ===================================================== */
+
+        .emergency-panel {
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff4f4,
+                    #fffafa
+                );
+
+            border:
+                1px solid #ffd5d5;
+
+            border-radius: 22px;
+
+            padding: 30px;
+
+            margin-bottom: 22px;
+        }
+
+        .emergency-panel h2 {
+            color: #c62828;
+
+            margin-bottom: 10px;
+        }
+
+        .emergency-panel p {
+            color: #667085;
+
+            line-height: 1.6;
+
+            font-size: 14px;
+        }
+
+        .emergency-actions {
+            display: flex;
+
+            gap: 12px;
+
+            margin-top: 20px;
+
+            flex-wrap: wrap;
+        }
+
+        .emergency-button {
+            border: none;
+
+            padding:
+                12px 18px;
+
+            border-radius: 11px;
+
+            font-weight: 700;
+        }
+
+        .emergency-button.primary {
+            background: #d92d20;
+
+            color: white;
+        }
+
+        .emergency-button.secondary {
+            background: white;
+
+            border:
+                1px solid #ffcccc;
+
+            color: #c62828;
+        }
+
+
+        /* =====================================================
+           WELCOME CARD
+        ===================================================== */
+
+        .welcome-card {
+            background:
+                linear-gradient(
+                    135deg,
+                    #edf6ff,
+                    #ecfcf8
+                );
+
+            border:
+                1px solid #d8eaf7;
+
+            border-radius: 18px;
+
+            padding: 18px;
+
+            margin-bottom: 18px;
+        }
+
+        .welcome-card h3 {
+            margin-bottom: 6px;
+        }
+
+        .welcome-card p {
+            color: #617083;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .footer {
+            text-align: center;
+
+            padding:
+                18px;
+
+            color: #98a2b3;
+
+            font-size: 11px;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1000px) {
+
+            .sidebar {
+                width: 210px;
+            }
+
+            .chat-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-card {
+                order: 2;
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .header {
+                padding:
+                    0 15px;
+            }
+
+            .status {
+                display: none;
+            }
+
+            .main {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+
+                border-right: none;
+
+                border-bottom:
+                    1px solid #e5eaf1;
+
+                padding: 8px;
+            }
+
+            .sidebar-title {
+                display: none;
+            }
+
+            .nav {
+                flex-direction: row;
+
+                overflow-x: auto;
+            }
+
+            .nav-item {
+                min-width: 110px;
+
+                justify-content: center;
+
+                flex-direction: column;
+
+                gap: 4px;
+
+                padding: 9px;
+            }
+
+            .nav-item span:last-child {
+                font-size: 10px;
+            }
+
+            .content {
+                padding: 15px;
+            }
+
+            .page-header h2 {
+                font-size: 23px;
+            }
+
+            .chat-card {
+                min-height: 580px;
+            }
+
+            .chat-messages {
+                min-height: 360px;
+            }
+
+            .message-content {
+                max-width: 88%;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="header">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🩺
+            </div>
+
+            <div class="brand-text">
+
+                <h1>Ballari MediAssist</h1>
+
+                <p>
+                    AI Healthcare Assistant
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="status">
+
+            <span class="status-dot"></span>
+
+            System Online
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="main">
+
+
+        <!-- =================================================
+             SIDEBAR
+        ================================================== -->
+
+        <aside class="sidebar">
+
+            <div class="sidebar-title">
+                Navigation
+            </div>
+
+
+            <nav class="nav">
+
+                <button
+                    class="nav-item active"
+                    onclick="showSection('chat')"
+                >
+
+                    <span class="nav-icon">
+                        💬
+                    </span>
+
+                    <span>
+                        Chat Assistant
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="nav-item"
+                    onclick="showSection('hospitals')"
+                >
+
+                    <span class="nav-icon">
+                        🏥
+                    </span>
+
+                    <span>
+                        Hospitals
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="nav-item"
+                    onclick="showSection('specialties')"
+                >
+
+                    <span class="nav-icon">
+                        ✨
+                    </span>
+
+                    <span>
+                        Features
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="nav-item"
+                    onclick="showSection('emergency')"
+                >
+
+                    <span class="nav-icon">
+                        🚨
+                    </span>
+
+                    <span>
+                        Emergency
+                    </span>
+
+                </button>
+
+            </nav>
+
+        </aside>
+
+
+        <!-- =================================================
+             CONTENT
+        ================================================== -->
+
+        <section class="content">
+
+
+            <!-- =================================================
+                 CHAT SECTION
+            ================================================== -->
+
+            <div
+                id="chat-section"
+                class="section active-section"
+            >
+
+                <div class="page-header">
+
+                    <h2>
+                        Medical Chat Assistant
+                    </h2>
+
+                    <p>
+                        Describe your symptoms or ask a general
+                        healthcare question.
+                    </p>
+
+                </div>
+
+
+                <div class="welcome-card">
+
+                    <h3>
+                        👋 Welcome to Ballari MediAssist
+                    </h3>
+
+                    <p>
+                        You can describe symptoms such as fever,
+                        skin problems, eye problems, cough, headache
+                        and more. The assistant can also help you
+                        find relevant healthcare facilities in Ballari.
+                    </p>
+
+                </div>
+
+
+                <div class="chat-layout">
+
+
+                    <!-- CHAT -->
+
+                    <div class="chat-card">
+
+
+                        <div class="chat-header">
+
+                            <div class="chat-avatar">
+                                🤖
+                            </div>
+
+                            <div>
+
+                                <h3>
+                                    MediAssist AI
+                                </h3>
+
+                                <p>
+                                    Healthcare information assistant
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            id="chatMessages"
+                            class="chat-messages"
+                        >
+
+                            <div class="message bot">
+
+                                <div class="message-avatar">
+                                    +
+                                </div>
+
+                                <div class="message-content">
+
+                                    <div class="message-bubble">
+
+                                        <strong>
+                                            Hello! 👋
+                                        </strong>
+
+                                        <p style="margin-top:7px;">
+                                            I am Ballari MediAssist.
+                                            Tell me what symptoms you
+                                            are experiencing or ask me
+                                            a healthcare question.
+                                        </p>
+
+                                    </div>
+
+                                    <span class="message-time">
+                                        Now
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="chat-input-area">
+
+                            <div class="input-wrapper">
+
+                                <input
+                                    type="text"
+                                    id="messageInput"
+                                    placeholder="Describe your symptoms..."
+                                    autocomplete="off"
+                                >
+
+                                <button
+                                    class="send-btn"
+                                    onclick="sendMessage()"
+                                    aria-label="Send message"
+                                >
+                                    ➤
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- QUICK OPTIONS -->
+
+                    <div class="quick-card">
+
+                        <h3>
+                            Quick Health Checks
+                        </h3>
+
+                        <p>
+                            Select a common problem
+                        </p>
+
+
+                        <div class="quick-buttons">
+
+                            <button
+                                class="quick-btn"
+                                onclick="sendQuickMessage('I have fever')"
+                            >
+                                🌡️<br>
+                                Fever
+                            </button>
+
+
+                            <button
+                                class="quick-btn"
+                                onclick="sendQuickMessage('I have a skin problem')"
+                            >
+                                🧴<br>
+                                Skin
+                            </button>
+
+
+                            <button
+                                class="quick-btn"
+                                onclick="sendQuickMessage('I have an eye problem')"
+                            >
+                                👁️<br>
+                                Eye
+                            </button>
+
+
+                            <button
+                                class="quick-btn"
+                                onclick="sendQuickMessage('I have heart related symptoms')"
+                            >
+                                ❤️<br>
+                                Heart
+                            </button>
+
+
+                            <button
+                                class="quick-btn"
+                                onclick="sendQuickMessage('I have cough')"
+                            >
+                                😷<br>
+                                Cough
+                            </button>
+
+
+                            <button
+                                class="quick-btn"
+                                onclick="sendQuickMessage('I have headache')"
+                            >
+                                🤕<br>
+                                Headache
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 HOSPITALS SECTION
+            ================================================== -->
+
+            <div
+                id="hospitals-section"
+                class="section"
+            >
+
+                <div class="page-header">
+
+                    <h2>
+                        🏥 Hospitals in Ballari
+                    </h2>
+
+                    <p>
+                        Browse healthcare facilities and available
+                        medical services.
+                    </p>
+
+                </div>
+
+
+                <div class="hospital-toolbar">
+
+                    <input
+                        type="text"
+                        class="hospital-search"
+                        id="hospitalSearch"
+                        placeholder="Search hospital name..."
+                        oninput="filterHospitals()"
+                    >
+
+                    <button
+                        class="specialty-btn"
+                        style="width:auto;padding:12px 18px;"
+                        onclick="loadHospitals()"
+                    >
+                        🔄 Refresh
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="hospitalContainer"
+                    class="hospital-grid"
+                >
+
+                    <div class="loading-card">
+
+                        Click Hospitals to load
+                        healthcare facilities.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 FEATURES / SPECIALTIES SECTION
+            ================================================== -->
+
+            <div
+                id="specialties-section"
+                class="section"
+            >
+
+                <div class="page-header">
+
+                    <h2>
+                        ✨ MediAssist Features
+                    </h2>
+
+                    <p>
+                        Quickly find the right healthcare specialty
+                        based on your concern.
+                    </p>
+
+                </div>
+
+
+                <div class="specialty-grid">
+
+
+                    <!-- FEVER -->
+
+                    <div
+                        class="specialty-card"
+                        onclick="sendQuickMessage('I have fever')"
+                    >
+
+                        <div class="specialty-icon">
+                            🌡️
+                        </div>
+
+                        <h3>
+                            Fever & General Health
+                        </h3>
+
+                        <p>
+                            Get general educational guidance for
+                            fever and common health symptoms.
+                        </p>
+
+                        <button
+                            class="specialty-btn"
+                            onclick="event.stopPropagation(); sendQuickMessage('I have fever')"
+                        >
+                            Check Fever
+                        </button>
+
+                    </div>
+
+
+                    <!-- SKIN -->
+
+                    <div
+                        class="specialty-card"
+                        onclick="searchSpecialty('Dermatology')"
+                    >
+
+                        <div class="specialty-icon">
+                            🧴
+                        </div>
+
+                        <h3>
+                            Skin Problems
+                        </h3>
+
+                        <p>
+                            Find dermatology-focused hospitals and
+                            healthcare facilities.
+                        </p>
+
+                        <button
+                            class="specialty-btn"
+                            onclick="event.stopPropagation(); searchSpecialty('Dermatology')"
+                        >
+                            🏥 Find Skin Hospitals
+                        </button>
+
+                    </div>
+
+
+                    <!-- EYE -->
+
+                    <div
+                        class="specialty-card"
+                        onclick="searchSpecialty('Ophthalmology')"
+                    >
+
+                        <div class="specialty-icon">
+                            👁️
+                        </div>
+
+                        <h3>
+                            Eye Problems
+                        </h3>
+
+                        <p>
+                            Find ophthalmology and eye-care
+                            facilities.
+                        </p>
+
+                        <button
+                            class="specialty-btn"
+                            onclick="event.stopPropagation(); searchSpecialty('Ophthalmology')"
+                        >
+                            👁️ Find Eye Hospitals
+                        </button>
+
+                    </div>
+
+
+                    <!-- HEART -->
+
+                    <div
+                        class="specialty-card"
+                        onclick="searchSpecialty('Cardiology')"
+                    >
+
+                        <div class="specialty-icon">
+                            ❤️
+                        </div>
+
+                        <h3>
+                            Heart & Cardiology
+                        </h3>
+
+                        <p>
+                            Find healthcare facilities that provide
+                            cardiology-related services.
+                        </p>
+
+                        <button
+                            class="specialty-btn"
+                            onclick="event.stopPropagation(); searchSpecialty('Cardiology')"
+                        >
+                            ❤️ Find Heart Hospitals
+                        </button>
+
+                    </div>
+
+
+                    <!-- ENT -->
+
+                    <div
+                        class="specialty-card"
+                        onclick="searchSpecialty('ENT')"
+                    >
+
+                        <div class="specialty-icon">
+                            👂
+                        </div>
+
+                        <h3>
+                            ENT
+                        </h3>
+
+                        <p>
+                            Find facilities for ear, nose and
+                            throat-related concerns.
+                        </p>
+
+                        <button
+                            class="specialty-btn"
+                            onclick="event.stopPropagation(); searchSpecialty('ENT')"
+                        >
+                            👂 Find ENT Hospitals
+                        </button>
+
+                    </div>
+
+
+                    <!-- ORTHOPAEDICS -->
+
+                    <div
+                        class="specialty-card"
+                        onclick="searchSpecialty('Orthopaedics')"
+                    >
+
+                        <div class="specialty-icon">
+                            🦴
+                        </div>
+
+                        <h3>
+                            Orthopaedics
+                        </h3>
+
+                        <p>
+                            Find facilities for bones, joints and
+                            musculoskeletal concerns.
+                        </p>
+
+                        <button
+                            class="specialty-btn"
+                            onclick="event.stopPropagation(); searchSpecialty('Orthopaedics')"
+                        >
+                            🦴 Find Orthopaedic Hospitals
+                        </button>
+
+                    </div>
+
+
+                    <!-- DENTAL -->
+
+                    <div
+                        class="specialty-card"
+                        onclick="searchSpecialty('Dental')"
+                    >
+
+                        <div class="specialty-icon">
+                            🦷
+                        </div>
+
+                        <h3>
+                            Dental
+                        </h3>
+
+                        <p>
+                            Find dental healthcare facilities for
+                            teeth and gum problems.
+                        </p>
+
+                        <button
+                            class="specialty-btn"
+                            onclick="event.stopPropagation(); searchSpecialty('Dental')"
+                        >
+                            🦷 Find Dental Facilities
+                        </button>
+
+                    </div>
+
+
+                    <!-- GYNAECOLOGY -->
+
+                    <div
+                        class="specialty-card"
+                        onclick="searchSpecialty('Obstetrics & Gynaecology')"
+                    >
+
+                        <div class="specialty-icon">
+                            👩‍⚕️
+                        </div>
+
+                        <h3>
+                            Women's Health
+                        </h3>
+
+                        <p>
+                            Find obstetrics and gynaecology-related
+                            healthcare facilities.
+                        </p>
+
+                        <button
+                            class="specialty-btn"
+                            onclick="event.stopPropagation(); searchSpecialty('Obstetrics & Gynaecology')"
+                        >
+                            👩‍⚕️ Find Facilities
+                        </button>
+
+                    </div>
+
+
+                </div>
+
+
+                <div
+                    class="features-grid"
+                    style="margin-top:25px;"
+                >
+
+
+                    <div class="feature-card">
+
+                        <div class="feature-icon">
+                            🤖
+                        </div>
+
+                        <h3>
+                            AI Symptom Assistant
+                        </h3>
+
+                        <p>
+                            Describe symptoms naturally and receive
+                            educational healthcare guidance and
+                            suggested medical specialties.
+                        </p>
+
+                    </div>
+
+
+                    <div class="feature-card">
+
+                        <div class="feature-icon">
+                            🏥
+                        </div>
+
+                        <h3>
+                            Hospital Finder
+                        </h3>
+
+                        <p>
+                            Browse hospitals stored in the Ballari
+                            healthcare database and view their
+                            available information.
+                        </p>
+
+                    </div>
+
+
+                    <div class="feature-card">
+
+                        <div class="feature-icon">
+                            🎯
+                        </div>
+
+                        <h3>
+                            Specialty Matching
+                        </h3>
+
+                        <p>
+                            Skin concerns can be directed to
+                            Dermatology, eye concerns to
+                            Ophthalmology, and heart concerns to
+                            Cardiology.
+                        </p>
+
+                    </div>
+
+
+                    <div class="feature-card">
+
+                        <div class="feature-icon">
+                            🚨
+                        </div>
+
+                        <h3>
+                            Emergency Detection
+                        </h3>
+
+                        <p>
+                            Potentially urgent messages can trigger
+                            an emergency warning and show healthcare
+                            facilities.
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 EMERGENCY SECTION
+            ================================================== -->
+
+            <div
+                id="emergency-section"
+                class="section"
+            >
+
+                <div class="page-header">
+
+                    <h2>
+                        🚨 Emergency Assistance
+                    </h2>
+
+                    <p>
+                        Important information for urgent medical
+                        situations.
+                    </p>
+
+                </div>
+
+
+                <div class="emergency-panel">
+
+                    <h2>
+                        🚨 If this is a medical emergency
+                    </h2>
+
+                    <p>
+                        Do not rely on an AI assistant for emergency
+                        diagnosis or treatment. If someone has severe
+                        symptoms, difficulty breathing, chest pain,
+                        unconsciousness, severe bleeding, or another
+                        potentially life-threatening condition, seek
+                        immediate professional medical attention.
+                    </p>
+
+
+                    <div class="emergency-actions">
+
+                        <button
+                            class="emergency-button primary"
+                            onclick="showSection('hospitals')"
+                        >
+                            🏥 Find Hospitals
+                        </button>
+
+
+                        <button
+                            class="emergency-button secondary"
+                            onclick="sendQuickMessage('This is an emergency. Please help me find emergency medical care.')"
+                        >
+                            🚨 Ask Assistant
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        🩺
+                    </div>
+
+                    <h3>
+                        Emergency Detection
+                    </h3>
+
+                    <p>
+                        The backend uses the severity checker to
+                        identify messages that may indicate an urgent
+                        situation. The assistant can then return
+                        healthcare facility information.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+    <footer class="footer">
+
+        Ballari MediAssist • AI Healthcare Information System
+
+        <br>
+
+        <span>
+            For educational and informational purposes only.
+            Always consult a qualified healthcare professional
+            for diagnosis and treatment.
+        </span>
+
+    </footer>
+
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================== -->
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+
+<script>
+
+    /* =========================================================
+       HOSPITAL SEARCH
+    ========================================================= */
+
+    function filterHospitals() {
+
+        const input =
+            document.getElementById("hospitalSearch");
+
+        if (!input) {
+            return;
+        }
+
+        const search =
+            input.value
+                .toLowerCase()
+                .trim();
+
+        const cards =
+            document.querySelectorAll(
+                "#hospitalContainer .hospital-card"
+            );
+
+        cards.forEach(function(card) {
+
+            const text =
+                card.textContent.toLowerCase();
+
+            if (
+                text.includes(search)
+            ) {
+
+                card.style.display =
+                    "";
+
+            } else {
+
+                card.style.display =
+                    "none";
+
+            }
+
+        });
+
+    }
+
+
+    /* =========================================================
+       SPECIALTY SHORTCUT
+    ========================================================= */
+
+    function openSpecialty(specialty) {
+
+        showSection("hospitals");
+
+        searchSpecialty(specialty);
+
+    }
+
+
+    /* =========================================================
+       SAFE STARTUP
+    ========================================================= */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function() {
+
+            const input =
+                document.getElementById(
+                    "messageInput"
+                );
+
+            if (input) {
+
+                input.focus();
+
+            }
+
+        }
+    );
+
+</script>
+
+
+</body>
+</html>
